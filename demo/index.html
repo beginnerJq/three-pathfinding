@@ -32,7 +32,7 @@
 
 		const Color = {
 			GROUND: new THREE.Color( 0x606060 ).convertSRGBToLinear().getHex(),
-			NAVMESH: new THREE.Color( 0xFFFFFF ).convertSRGBToLinear().getHex(),
+			NAVMESH: new THREE.Color( 0xFFFF00 ).convertSRGBToLinear().getHex(),
 		};
 
 		const ZONE = 'level';
@@ -55,6 +55,8 @@
 		const mouse = new THREE.Vector2();
 		const mouseDown = new THREE.Vector2();
 		const raycaster = new THREE.Raycaster();
+
+		console.log(pathfinder)
 
 		const scene = new THREE.Scene();
 		scene.add( helper );
@@ -99,7 +101,7 @@
 				});
 				level = new THREE.Mesh(levelMesh.geometry, levelMat);
 				window.level = level;
-				scene.add(level);
+				// scene.add(level);
 			}, null);
 
 			gltfLoader.load( 'meshes/level.nav.glb', function( gltf ) {
@@ -166,6 +168,8 @@
 
 			targetPosition.copy( intersects[0].point );
 
+			// console.log(targetPosition)
+
 			helper
 				.reset()
 				.setPlayerPosition( playerPosition );
@@ -191,7 +195,9 @@
 			if (closestTargetNode) helper.setNodePosition( closestTargetNode.centroid );
 
 			// Calculate a path to the target and store it
-			path = pathfinder.findPath( playerPosition, targetPosition, ZONE, groupID );
+			path = pathfinder.findPath( playerPosition, targetPosition, ZONE, groupID, false);
+
+			// console.log(path)
 
 			if ( path && path.length ) {
 

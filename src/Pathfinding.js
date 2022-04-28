@@ -103,12 +103,12 @@ class Pathfinding {
 	 * @param  {number} groupID Current group ID.
 	 * @return {Array<Vector3>} Array of points defining the path.
 	 */
-	findPath (startPosition, targetPosition, zoneID, groupID) {
+	findPath (startPosition, targetPosition, zoneID, groupID, checkPolygon = true) {
 		const nodes = this.zones[zoneID].groups[groupID];
 		const vertices = this.zones[zoneID].vertices;
 
-		const closestNode = this.getClosestNode(startPosition, zoneID, groupID, true);
-		const farthestNode = this.getClosestNode(targetPosition, zoneID, groupID, true);
+		const closestNode = this.getClosestNode(startPosition, zoneID, groupID, checkPolygon);
+		const farthestNode = this.getClosestNode(targetPosition, zoneID, groupID, checkPolygon);
 
 		// If we can't find any node, just go straight to the target
 		if (!closestNode || !farthestNode) {
@@ -145,7 +145,7 @@ class Pathfinding {
 
 		// Return the path, omitting first position (which is already known).
 		const path = channel.path.map((c) => new Vector3(c.x, c.y, c.z));
-		path.shift();
+		// path.shift();
 		return path;
 	}
 }
